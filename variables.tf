@@ -99,8 +99,21 @@ variable "noncurrent_version_expiration" {
 }
 
 variable "s3_bucket_force_destroy" {
+  type        = bool
   description = "A boolean that indicates all objects should be deleted from S3 buckets so that the buckets can be destroyed without error. These objects are not recoverable."
   default     = false
+}
+
+variable "state_logging_target_bucket" {
+  type        = string
+  description = "Optional bucket name for S3 access logs for the state bucket"
+  default     = null
+}
+
+variable "replica_logging_target_bucket" {
+  type        = string
+  description = "Optional bucket name for S3 access logs for the replica bucket"
+  default     = null
 }
 
 #---------------------------------------------------------------------------------------------------

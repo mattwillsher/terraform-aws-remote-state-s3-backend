@@ -195,6 +195,14 @@ resource "aws_s3_bucket" "replica" {
     enabled = true
   }
 
+  dynamic "logging" {
+    for_each = var.replica_logging_target_bucket != null ? [var.replica_logging_target_bucket] : []
+    content {
+      target_bucket = each.value
+      target_prefix = "s3/${var.replica_bucket_prefix}/"
+    }
+  }
+
   dynamic "lifecycle_rule" {
     for_each = local.define_lifecycle_rule ? [true] : []
 
@@ -243,6 +251,14 @@ resource "aws_s3_bucket" "state" {
 
   versioning {
     enabled = true
+  }
+
+  dynamic "logging" {
+    for_each = var.state_logging_target_bucket != null ? [var.state_logging_target_bucket] : []
+    content {
+      target_bucket = each.value
+      target_prefix = "s3/${var.state_bucket_prefix}/"
+    }
   }
 
   server_side_encryption_configuration {
